@@ -115,7 +115,7 @@ Computer Studies.
 
 # Dedication {-}
 
-<!-- Personal. The candidate writes this. -->
+This work is dedicated to my family, mentors and all people working to make charitable support more transparent and accountable.
 
 ```{=latex}
 \clearpage
@@ -123,8 +123,7 @@ Computer Studies.
 
 # Acknowledgements {-}
 
-<!-- Personal. The candidate writes this. Conventionally: supervisor,
-     department, family, and the respondents who completed the questionnaire. -->
+I sincerely thank my supervisor, Dr Gustaph Sanga, for guidance throughout this project. I also appreciate the Department of Computer Studies, the people who contributed early questionnaire feedback, and my family and colleagues for their support during design, implementation and testing.
 
 ```{=latex}
 \clearpage
@@ -132,9 +131,7 @@ Computer Studies.
 
 # Abstract {-}
 
-<!-- Write LAST, once every chapter is settled. One paragraph, roughly 250 to
-     300 words: problem, aim, method, what was built, key results,
-     conclusion. No citations in an abstract. -->
+NGO donation systems need to make contribution and fund-release records more visible without making ordinary donors adopt cryptocurrency. This project designed and implemented ChangiaTanzania, a blockchain-based NGO donation management system that combines familiar web and local-payment workflows with privacy-preserving Ethereum proof recording. An iterative Agile approach was used, informed by retained questionnaire themes, document review, source inspection and technical testing. The system implements donor, fundraiser and administrator roles; campaign management; beneficiary verification; payment-session handling; idempotent payment callback finalisation; receipts; donation history; notifications; dashboards; audit logs; exports; controlled disbursements; public receipt verification; and an integrated risk-review module. PostgreSQL is the operational source of truth. After a verified payment or completed disbursement, the backend records a deterministic proof hash through a smart contract, while public verification omits donor identity and payment references. The implementation demonstrates that blockchain can serve as a narrow tamper-evident proof layer alongside conventional application controls rather than replacing payment or operational systems. Tests cover key authentication, payment, proof, campaign-review, beneficiary, disbursement-control and risk-analysis scenarios. The report records two material limitations: the response-level questionnaire export was unavailable, so no quantitative survey claims are made; and production payment credentials, infrastructure hardening, load testing and independent user acceptance testing remain required. The risk-review module is feature-flagged off until its migration is applied and it is deliberately enabled; the on-chain escrow contract remains future work.
 
 ```{=latex}
 \clearpage

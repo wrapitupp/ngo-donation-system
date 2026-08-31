@@ -6,63 +6,58 @@
 
 ## 3.1 Introduction {-}
 
+The project used applied systems development: early user-problem evidence was translated into requirements, then delivered through iterative implementation and technical verification.
+
 ## 3.2 Research Design {-}
 
-<!-- Survey design with document review as a supporting method (D3, option A).
-     The questionnaire was distributed via Google Forms. -->
+An iterative Agile approach was used. The system was built in vertical stages: public campaigns, authentication, donations, blockchain proof, administration, community fundraising and payment/deployment improvements. A Google Forms questionnaire provided problem and preference themes; document review and observation supplemented it.
 
 ## 3.3 Study Area {-}
 
-<!-- Tanzania. Respondents reached through Tanzania Red Cross Society
-     cooperation chat groups and the student body. -->
+The context was Tanzania. The questionnaire was shared through Tanzania Red Cross Society cooperation chat groups and among students, focusing on donation trust, tracking and payment preferences.
 
 ## 3.4 Target Population and their Categories {-}
 
-<!-- Categories: individual donors, NGO stakeholders, students. -->
+The intended population was potential donors, NGO stakeholders and students. Administrative workflows were analysed from the perspectives of a neutral NGO operator and a community fundraiser.
 
 ## 3.6 Sample Size {-}
 
-<!-- Template skips 3.5. Mirrored deliberately, see D2.
-     BLOCKED: needs the response count and collection window from the
-     questionnaire CSV export. -->
+The response export and collection dates were not retained with the repository. This report therefore does not claim a numerical sample size or inferential findings. A future evaluation should retain anonymised response data, consent information and collection dates.
 
 ## 3.7 Data Collection Methods {-}
 
-<!-- Questionnaires: used, the primary instrument.
-     Document review: used, existing platform documentation and NGO reports.
-     Observation: used, direct examination of existing donation platforms.
-     Interviews: NOT used. State this explicitly with justification rather
-     than omitting it, the template lists all four. -->
+The questionnaire collected early user views. Document review examined requirements, platform documentation and donation-control literature. Observation examined expected platform behaviour and the developed application. Interviews were not used within the available project time.
 
 ## 3.8 Data Collection Instruments {-}
 
-<!-- The Google Forms questionnaire (reproduced in Appendix A) and a
-     document review matrix. -->
+The instruments were a structured Google Forms questionnaire and document-review matrix. Questionnaire themes concerned trust, tracking, transparency, blockchain verification and donation management.
 
 ## 3.9 Data Required for Each Objective {-}
 
-<!-- One table: objective, data required, source, collection method. -->
+| Objective | Evidence | Method |
+|---|---|---|
+| Secure access | roles, sessions and access rules | source review and API tests |
+| Donation workflow | payment, receipt and history | E2E tests |
+| Proof | hash, transaction and lookup | contract/API tests |
+| Accountable payout | beneficiary, balance and approval controls | business rules and E2E tests |
+| Decision support | risk signals and review path | integrated risk-module code/tests |
 
 ## 3.10 Ethical Considerations {-}
 
-<!-- Voluntary participation, no personally identifying data collected,
-     anonymised reporting. Ties to the design rule that no personal data is
-     written on-chain. -->
+Participation was voluntary and findings are reported only as aggregate themes. Public verification returns campaign, amount, date and transaction reference but no donor identity, email or payment reference. On-chain data is a proof hash rather than personal data.
 
 ## 3.11 Data Analysis Methods {-}
 
-<!-- Descriptive statistics, frequency distributions, charts. -->
+The retained questionnaire findings were analysed thematically. Technical evidence was analysed through requirements traceability, source inspection, automated test results and manual workflow verification. No quantitative result is presented without its source data.
 
 ## 3.12 Development Methodology {-}
 
-<!-- Agile, iterative, stage-based. Evidence is real: the repository history
-     shows discrete delivery stages with verification at each.
-     Source: docs/IMPLEMENTATION_PLAN.md, docs/ROADMAP.md, docs/GITHUB_WORKFLOW.md. -->
+Agile development was appropriate because payments, blockchain and role controls have interdependencies. Each stage added a usable capability and was checked through linting, type checking, builds and targeted end-to-end tests. Git history preserves the iteration record.
 
 ## 3.13 Software and Hardware Used {-}
 
-<!-- Source: docs/TECH_STACK.md.
-     Note the change from MINI 1: PostgreSQL, not SQLite. State it plainly as
-     a design decision, no defensive prose (REPORT_BLUEPRINT.md section 10). -->
+React, TypeScript, Vite and Tailwind CSS implement the client. Node.js, Express, Drizzle ORM and PostgreSQL implement the server. Solidity, Hardhat and Ethers implement blockchain proof. Development used Windows 11, VS Code, PowerShell, Git and npm; deployment targets are Vercel, Render and Neon PostgreSQL.
 
 ## 3.14 Summary {-}
+
+The methodology combines user-problem themes with iterative implementation and reproducible technical verification, while explicitly acknowledging missing response-level survey data.

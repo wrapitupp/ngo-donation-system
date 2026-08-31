@@ -6,57 +6,56 @@
 
 ## 5.1 Introduction {-}
 
-<!-- Purpose: define WHAT the system must do before design begins. -->
+This chapter specifies what ChangiaTanzania must do and its operational constraints.
 
 ## 5.2 Existing System Analysis {-}
 
-<!-- Shares material with 2.4. Manual and spreadsheet NGO records, mobile
-     money transfers with no public audit trail, generic crowdfunding
-     platforms. Weaknesses: no immutability, no donor-verifiable receipt, no
-     separation of duties on payouts. -->
+Manual records and generic online fundraising leave a weak link between payment acknowledgement, fund use and independently checkable evidence. Centralised data also needs governance controls to prevent a single user from creating and approving exceptional payouts.
 
 ## 5.3 Proposed System {-}
 
-<!-- Map each 5.2 weakness to a specific fix. State scope in and out. -->
+The proposed system combines a public interface, protected role workspaces, payment-provider adapters, PostgreSQL operations, Ethereum proof recording and report exports. It addresses visibility with receipts and proof lookup, and governance with beneficiary verification, approval rules and immutable audit logs.
 
 ## 5.4 Functional Requirements {-}
 
-<!-- Numbered FR-01 onward, grouped by actor: Donor, Fundraiser,
-     Administrator, System. Each must complete the stem "The system shall".
-     Pull verbatim from DOCUMENTATION/build/content.py so the deck and report
-     agree exactly.
-     Source: docs/PRODUCT_REQUIREMENTS.md, docs/BUSINESS_RULES.md, api/*.md. -->
+| ID | The system shall | Priority |
+|---|---|---|
+| FR-01 | register, authenticate and manage secure user sessions | High |
+| FR-02 | enforce donor, fundraiser and administrator permissions | High |
+| FR-03 | list, search and display active campaigns | High |
+| FR-04 | let authorised owners create, edit, submit and archive campaigns | High |
+| FR-05 | create payment sessions and finalise verified callbacks idempotently | High |
+| FR-06 | issue receipts and show each donor's donation history | High |
+| FR-07 | create and publicly verify donation and disbursement proofs | High |
+| FR-08 | manage beneficiaries and restrict payouts to verified beneficiaries | High |
+| FR-09 | enforce balance, threshold and self-approval rules for disbursements | High |
+| FR-10 | notify users and provide dashboards, audit records and exports | Medium |
+| FR-11 | provide an administrator risk-review API and queue for unusual completed donations | Medium |
 
 ## 5.5 Non-functional Requirements {-}
 
-<!-- Seven headings the template names: Security, Performance, Reliability,
-     Maintainability, Availability, Scalability, Usability.
-     One MEASURABLE target each. Use real measured figures where we have
-     them, not aspirations. Source: docs/SECURITY.md. -->
+| Quality | Acceptance target / evidence |
+|---|---|
+| Security | bcrypt passwords, JWT access, rotating httpOnly refresh token, RBAC, validation and rate limits |
+| Reliability | one atomic payment finalisation; duplicate callbacks do not double-credit |
+| Privacy | public lookup exposes no donor PII or payment reference; no PII on-chain |
+| Maintainability | strict TypeScript, layered API and provider interfaces |
+| Usability | responsive client with loading, empty, error and success states |
+| Availability | a proof-write failure does not discard a verified payment |
+| Scalability | PostgreSQL pagination and constraints; production load testing remains required |
 
 ## 5.6 User Requirements {-}
 
-<!-- Per role: donor, fundraiser, administrator.
-     Source: docs/PROJECT_OVERVIEW.md, docs/EVALUATOR_REQUIREMENTS.md,
-     pages/*.md. -->
+Donors need browsing, donation, receipts, history and verification. Fundraisers need controlled ownership of campaigns, beneficiaries and permitted payouts. Administrators need oversight, review, verification, reports, audit logs and user controls.
 
 ## 5.7 System Requirements {-}
 
-<!-- Hardware, Software, Network, plus Blockchain (Sepolia, Hardhat, funded
-     wallet, RPC endpoint) and Model and Algorithms.
-
-     The Model and Algorithms subsection stays. Per SYNC S1 the ML fraud
-     module is planned, and it is described as designed with implementation
-     scheduled. It must never be presented as running. -->
+The client requires a modern browser and internet connection. Server deployment requires Node.js 20+, PostgreSQL and protected secrets. Blockchain proof requires an Ethereum RPC endpoint, backend wallet and contract address. Development uses React, Vite, Express, Drizzle, Hardhat and Solidity.
 
 ## 5.8 Feasibility Study {-}
 
-<!-- Technical, Economic, Operational, Legal, Schedule.
-     Economic is a genuine strength: free hosting tiers plus Sepolia test
-     ETH give a near-zero running cost. Needs real figures. -->
+The solution uses mature tooling and preserves familiar fiat payments. Development and test deployment can use low-cost tiers and test ETH, but production must budget for gateway fees, storage, monitoring and gas. A production NGO must meet applicable payment, data-protection and charity regulations. The staged Git history demonstrates schedule feasibility.
 
 ## 5.9 Software Requirement Specification {-}
 
-<!-- Use case diagram. Actors: Donor, Fundraiser, Administrator, plus the
-     payment gateway and blockchain as external systems.
-     Diagram still to be authored as DOCUMENTATION/diagrams/use-case.mmd. -->
+The human actors are Donor, Fundraiser and Administrator; the payment provider and Ethereum network are external systems. The functional requirements above are the formal SRS baseline and are traced in Chapter Seven.

@@ -19,8 +19,8 @@ course: "BENG22COE"
 supervisor: "Dr Gustaph Sanga"
 
 # PENDING, see REPORT_BLUEPRINT.md section 9.
-submissiondate: "[PENDING]"
-academicyear: "[PENDING]"
+submissiondate: "August 2026"
+academicyear: "2025/2026"
 
 # report class, not article: the report is organised in chapters, and both
 # \chapter and \counterwithin{figure}{chapter} require it. Note that report
