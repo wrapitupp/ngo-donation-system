@@ -45,3 +45,6 @@ Thumbs.db
 
 # Coverage
 coverage/
+
+# Report build output (regenerate with DOCUMENTATION/report/build/build.ps1)
+DOCUMENTATION/report/out/

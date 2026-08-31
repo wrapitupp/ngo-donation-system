@@ -284,6 +284,7 @@ function PayoutsSection({ campaignId }: { campaignId: number }) {
         campaignId={campaignId}
         verified={verified}
         selfServeRemaining={balance?.selfServeRemaining ?? 0}
+        availableBalance={balance?.availableBalance ?? null}
         onDone={refresh}
       />
 
@@ -346,11 +347,13 @@ function PayoutForm({
   campaignId,
   verified,
   selfServeRemaining,
+  availableBalance,
   onDone,
 }: {
   campaignId: number
   verified: AdminBeneficiary[]
   selfServeRemaining: number
+  availableBalance: number | null
   onDone: () => void
 }) {
   const [formError, setFormError] = useState<string | null>(null)
@@ -366,7 +369,9 @@ function PayoutForm({
   })
 
   const amount = Number(watch('amount'))
-  const needsApproval = Number.isFinite(amount) && amount > 0 && amount >= selfServeRemaining
+  const exceedsBalance = availableBalance !== null && amount > availableBalance
+  const needsApproval =
+    Number.isFinite(amount) && amount > 0 && amount >= selfServeRemaining && !exceedsBalance
 
   const onSubmit = async (values: DisbursementFormValues) => {
     setFormError(null)
@@ -411,6 +416,9 @@ function PayoutForm({
       <div className="grid gap-4 sm:grid-cols-2">
         <FormField id="amount" label="Amount (TZS)" error={errors.amount?.message}>
           <Input id="amount" type="number" inputMode="numeric" {...register('amount')} />
+          {exceedsBalance && (
+            <p className="mt-2 text-sm text-destructive">Amount exceeds the available balance.</p>
+          )}
         </FormField>
         <FormField id="purpose" label="Purpose" error={errors.purpose?.message}>
           <Input id="purpose" {...register('purpose')} />
@@ -428,7 +436,7 @@ function PayoutForm({
         </p>
       )}
       <div>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || exceedsBalance}>
           {isSubmitting ? 'Submitting…' : 'Release payout'}
         </Button>
       </div>

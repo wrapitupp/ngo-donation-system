@@ -142,7 +142,13 @@ export type ApplicationPatch = Partial<
   Pick<NewFundraiserApplicationRow, 'status' | 'reviewedBy' | 'decisionReason' | 'reviewedAt'>
 >
 
-export async function updateApplication(
+/**
+ * Settle a review decision only while the application is still pending. Closes
+ * the race between two administrators reviewing the same application at once:
+ * the loser gets `undefined` instead of overwriting the first decision and
+ * sending the applicant a contradictory notification.
+ */
+export async function settlePendingApplication(
   id: number,
   data: ApplicationPatch,
 ): Promise<FundraiserApplicationRow | undefined> {
@@ -150,7 +156,7 @@ export async function updateApplication(
   const [row] = await client
     .update(fundraiserApplications)
     .set({ ...data, updatedAt: new Date() })
-    .where(eq(fundraiserApplications.id, id))
+    .where(and(eq(fundraiserApplications.id, id), eq(fundraiserApplications.status, 'pending')))
     .returning()
   return row
 }

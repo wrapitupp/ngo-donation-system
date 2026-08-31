@@ -12,10 +12,14 @@ export const passwordSchema = z
 
 const email = z.string().trim().min(1, 'Enter your email').email('Enter a valid email')
 
+// Bounds mirror the server (server/src/validation/auth.ts) so a too-short
+// number fails inline here rather than as a late error from the API.
 const phone = z
   .string()
   .trim()
   .min(1, 'Enter your phone number')
+  .min(7, 'Enter a valid phone number')
+  .max(30, 'Enter a valid phone number')
   .regex(/^[+]?[0-9][0-9\s-]{5,}$/, 'Enter a valid phone number')
 
 const fullName = z.string().trim().min(1, 'Enter your full name').max(120)

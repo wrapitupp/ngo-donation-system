@@ -3,7 +3,7 @@ import {
   findApplicationById,
   findFundraisersAdmin,
   findLatestApplicationByUser,
-  updateApplication,
+  settlePendingApplication,
   type FundraiserListFilters,
   type FundraiserListRow,
 } from '../repositories/fundraiserApplication.repository'
@@ -167,13 +167,17 @@ export async function approveApplication(
     throw ApiError.badRequest('Only pending applications can be reviewed')
   }
 
-  await setUserRole(application.userId, 'fundraiser')
-  const updated = await updateApplication(id, {
+  // Guarded on 'pending' so a second administrator reviewing the same
+  // application concurrently cannot overwrite the first decision.
+  const updated = await settlePendingApplication(id, {
     status: 'approved',
     reviewedBy: adminId,
     reviewedAt: new Date(),
   })
-  if (!updated) throw ApiError.notFound('Application not found')
+  if (!updated) {
+    throw new ApiError(409, 'This application was already reviewed by another administrator')
+  }
+  await setUserRole(application.userId, 'fundraiser')
 
   void recordAudit({
     userId: adminId,
@@ -206,13 +210,15 @@ export async function rejectApplication(
     throw ApiError.badRequest('Only pending applications can be reviewed')
   }
 
-  const updated = await updateApplication(id, {
+  const updated = await settlePendingApplication(id, {
     status: 'rejected',
     reviewedBy: adminId,
     decisionReason: reason,
     reviewedAt: new Date(),
   })
-  if (!updated) throw ApiError.notFound('Application not found')
+  if (!updated) {
+    throw new ApiError(409, 'This application was already reviewed by another administrator')
+  }
 
   void recordAudit({
     userId: adminId,

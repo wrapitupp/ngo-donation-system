@@ -7,7 +7,7 @@ import { ClosingCtaSection } from '@/components/landing/ClosingCtaSection'
 
 /**
  * Public landing page. Spec: pages/landing-page.md.
- * Testimonials are deliberately absent pre-launch (PRODUCT.md: never
+ * Testimonials are deliberately absent pre-launch (docs/PRODUCT.md: never
  * fabricate testimonials); the section returns with real donor feedback.
  */
 export function LandingPage() {

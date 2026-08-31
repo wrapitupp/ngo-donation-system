@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { BadgeCheck, Pencil, Plus, ShieldOff, Trash2 } from 'lucide-react'
@@ -23,7 +23,9 @@ import { formatDate } from '@/utils/format'
 
 export function AdminBeneficiariesPage() {
   const [busyId, setBusyId] = useState<number | null>(null)
-  const { data, error, loading, retry } = useFetch(() => getBeneficiariesAdmin({ limit: 50 }))
+  const { data, error, loading, retry } = useFetch(
+    useCallback(() => getBeneficiariesAdmin({ limit: 50 }), []),
+  )
 
   const onToggleVerify = async (id: number, verified: boolean) => {
     setBusyId(id)

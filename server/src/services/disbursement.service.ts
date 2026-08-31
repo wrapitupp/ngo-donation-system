@@ -11,6 +11,7 @@ import {
   insertDisbursement,
   openDisbursementProof,
   updateDisbursement,
+  updateDisbursementIfStatus,
   type ApprovalRow,
   type DisbursementDetailRow,
   type DisbursementListFilters,
@@ -233,9 +234,14 @@ export async function approveDisbursement(adminId: number, id: number): Promise<
     throw new ApiError(409, 'You cannot approve a disbursement you initiated')
   }
 
+  // Guarded on the current status so two admins approving/rejecting at once
+  // can't both win: only the request that actually transitions the row
+  // proceeds to record the approval and pay out.
+  const updated = await updateDisbursementIfStatus(id, 'pending_approval', { status: 'approved' })
+  if (!updated) {
+    throw new ApiError(409, 'This disbursement was already approved or rejected by another administrator')
+  }
   await insertApproval({ disbursementId: id, adminId, decision: 'approved' })
-  const updated = await updateDisbursement(id, { status: 'approved' })
-  if (!updated) throw ApiError.notFound('Disbursement not found')
 
   void recordAudit({
     userId: adminId,
@@ -261,9 +267,14 @@ export async function rejectDisbursement(
     throw ApiError.badRequest('Only disbursements pending approval can be rejected')
   }
 
+  const updated = await updateDisbursementIfStatus(id, 'pending_approval', {
+    status: 'rejected',
+    rejectionReason: reason,
+  })
+  if (!updated) {
+    throw new ApiError(409, 'This disbursement was already approved or rejected by another administrator')
+  }
   await insertApproval({ disbursementId: id, adminId, decision: 'rejected', reason })
-  const updated = await updateDisbursement(id, { status: 'rejected', rejectionReason: reason })
-  if (!updated) throw ApiError.notFound('Disbursement not found')
 
   void recordAudit({
     userId: adminId,

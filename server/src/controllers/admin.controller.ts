@@ -181,7 +181,12 @@ export async function broadcastNotification(
     if (audience === 'admins') {
       await notifyAdmins(title, message)
     } else {
-      const roles = audience === 'everyone' ? (['admin', 'donor'] as const) : (['donor'] as const)
+      // 'everyone' must reach every role, fundraisers included (Decision 020),
+      // otherwise a platform-wide announcement silently skips them.
+      const roles =
+        audience === 'everyone'
+          ? (['admin', 'fundraiser', 'donor'] as const)
+          : (['donor'] as const)
       const userIds = (await Promise.all(roles.map((role) => findUserIdsByRole(role)))).flat()
       await notify({ userIds, type: 'system_announcement', title, message })
     }

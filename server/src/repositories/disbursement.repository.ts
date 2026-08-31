@@ -75,6 +75,26 @@ export async function updateDisbursement(
   return row
 }
 
+/**
+ * Same as updateDisbursement, but only applies when the row is still in
+ * `expectedStatus`. Closes the race between two admins approving/rejecting
+ * the same disbursement at once: only the first write wins, the second gets
+ * `undefined` and must not re-run the payout (server/src/services/disbursement.service.ts).
+ */
+export async function updateDisbursementIfStatus(
+  id: number,
+  expectedStatus: DisbursementRow['status'],
+  data: DisbursementPatch,
+): Promise<DisbursementRow | undefined> {
+  const client = requireDb()
+  const [row] = await client
+    .update(disbursements)
+    .set({ ...data, updatedAt: new Date() })
+    .where(and(eq(disbursements.id, id), eq(disbursements.status, expectedStatus)))
+    .returning()
+  return row
+}
+
 export async function insertApproval(data: NewDisbursementApprovalRow): Promise<void> {
   const client = requireDb()
   await client.insert(disbursementApprovals).values(data)
