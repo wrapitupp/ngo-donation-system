@@ -9,6 +9,7 @@ import {
   Plus,
   ScrollText,
   Send,
+  ShieldAlert,
   UserCheck,
   Users,
 } from 'lucide-react'
@@ -37,6 +38,7 @@ export const ROUTES = {
   adminBeneficiaries: '/admin/beneficiaries',
   adminDisbursements: '/admin/disbursements',
   adminUsers: '/admin/users',
+  adminRisk: '/admin/risk',
   adminAudit: '/admin/audit',
   adminReports: '/admin/reports',
   adminNotifications: '/admin/notifications',
@@ -131,6 +133,7 @@ export const ADMIN_NAV_LINKS: ConsoleNavLink[] = [
   { label: 'Users', to: ROUTES.adminUsers, icon: Users },
   { label: 'Reports', to: ROUTES.adminReports, icon: BarChart3 },
   { label: 'Notifications', to: ROUTES.adminNotifications, icon: Bell },
+  { label: 'Risk review', to: ROUTES.adminRisk, icon: ShieldAlert },
   { label: 'Audit Log', to: ROUTES.adminAudit, icon: ScrollText },
 ]
 

@@ -29,6 +29,7 @@ export const AUDIT_ACTIONS = {
   loginSuccess: 'login.success',
   loginFailed: 'login.failed',
   blockchainVerify: 'blockchain.verify',
+  riskReviewed: 'risk.reviewed',
 } as const
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[keyof typeof AUDIT_ACTIONS]

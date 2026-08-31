@@ -13,6 +13,7 @@ import disbursementRoutes from './disbursement.routes'
 import adminRoutes from './admin.routes'
 import reportRoutes from './report.routes'
 import rewardRoutes from './reward.routes'
+import riskRoutes from './risk.routes'
 
 const router = Router()
 
@@ -28,6 +29,8 @@ router.use('/notifications', notificationRoutes)
 router.use('/beneficiaries', beneficiaryRoutes)
 router.use('/disbursements', disbursementRoutes)
 router.use('/admin', adminRoutes)
+// Mounted before nothing else claims it; admin.routes has no /risk prefix.
+router.use('/admin/risk', riskRoutes)
 router.use('/reports', reportRoutes)
 router.use('/rewards', rewardRoutes)
 

@@ -9,6 +9,7 @@ import {
 import { findDistinctDonorIdsByCampaign, recordDonation } from '../repositories/donation.repository'
 import { recordBlockchainProof } from './donation.service'
 import { awardForDonation } from './reward.service'
+import { assessDonationRisk } from './fraudDetection.service'
 import { getPaymentProvider } from './payment'
 import { notify } from './notification.service'
 import {
@@ -175,6 +176,10 @@ export async function handleCallback(
   // Fire-and-forget: Impact Points are a loyalty perk, never a reason to fail a
   // donation. Awarding is idempotent, so a duplicate callback is harmless.
   void awardForDonation(donation)
+
+  // Fire-and-forget: risk scoring observes the donation, it never blocks or
+  // reverses one. Scoring is idempotent on donation id.
+  void assessDonationRisk(donation)
 
   void notify({
     userIds: [donation.donorId],

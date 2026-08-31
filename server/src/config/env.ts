@@ -75,6 +75,12 @@ const envSchema = z.object({
   // Disbursement payout gateway. 'mock' completes instantly, no credentials
   // needed; 'azampay' selects the real adapter once onboarded.
   DISBURSEMENT_PROVIDER: z.enum(['mock', 'azampay']).default('mock'),
+  // Risk analytics. Off by default so the feature is inert until the
+  // risk_assessments migration has been applied.
+  RISK_SCORING_ENABLED: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 /**

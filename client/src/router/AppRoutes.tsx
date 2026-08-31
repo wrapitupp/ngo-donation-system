@@ -33,6 +33,7 @@ import { AdminDisbursementFormPage } from '@/pages/admin/AdminDisbursementFormPa
 import { AdminDisbursementDetailPage } from '@/pages/admin/AdminDisbursementDetailPage'
 import { AdminUsersPage } from '@/pages/admin/AdminUsersPage'
 import { AdminAuditPage } from '@/pages/admin/AdminAuditPage'
+import { AdminRiskPage } from '@/pages/admin/AdminRiskPage'
 import { AdminReportsPage } from '@/pages/admin/AdminReportsPage'
 import { AdminNotificationsPage } from '@/pages/admin/AdminNotificationsPage'
 import { PrivacyPage } from '@/pages/PrivacyPage'
@@ -103,6 +104,7 @@ export function AppRoutes() {
           <Route path={ROUTES.adminUsers} element={<AdminUsersPage />} />
           <Route path={ROUTES.adminReports} element={<AdminReportsPage />} />
           <Route path={ROUTES.adminNotifications} element={<AdminNotificationsPage />} />
+          <Route path={ROUTES.adminRisk} element={<AdminRiskPage />} />
           <Route path={ROUTES.adminAudit} element={<AdminAuditPage />} />
         </Route>
       </Route>
